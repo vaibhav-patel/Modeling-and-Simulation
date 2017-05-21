@@ -1,0 +1,31 @@
+function grids1 = newdiffusionSim(m, n, hotSites, coldSites, t)
+% DIFFUSIONSIM Diffusion simulation
+global AMBIENT HOT COLD 
+AMBIENT = 25; HOT = 50; COLD = 0;
+%%% Initialize grid
+bar=initBar(m, n, hotSites, coldSites);
+
+%%% Perform simulation
+grids1 = zeros(m, n, 1);
+grids2 = zeros(m, n, 1);
+grids1(:, :, 1) = bar;
+for i = 2:(t + 1)
+    % Extend matrix
+    barExtended = reflectingLat(bar);
+    % Apply spread of heat function to each grid point
+    bar = newapplyDiffusionExtended(barExtended);
+    % reapply hot and cold spots
+    bar=applyHotCold(bar, hotSites, coldSites);
+    
+    % Save new matrix
+    grids2(:, :, 1) = bar;
+ difff2=    grids1(:,:,1) - grids2(:,:,1);
+ difff2=abs(difff2);
+ nodi=sum(sum(difff2<0.001));
+ i
+ if(nodi==m*n)
+     'y'
+     pause
+ end
+ g
+end;

@@ -1,0 +1,27 @@
+close all;
+clear all;
+a = 0.00218;
+b = 0.5;
+total = 14;
+dt = 0.00001;
+iter = total / dt + 1;
+t = zeros(iter, 1);
+S = zeros(iter, 1);
+I = zeros(iter, 1);
+R = zeros(iter, 1);
+S(1) = 762;
+I(1) = 1;
+for i = 2 : iter
+    delta = 0;
+    if i > 4 delta = S(i - 4); end;
+    S(i) = S(i - 1) - dt * (a * S(i - 1) * I(i - 1)) - dt * 0.15 * delta;
+    I(i) = I(i - 1) + dt * (a * S(i - 1) * I(i - 1) - b * I(i - 1));
+    R(i) = R(i - 1) + dt * (b * I(i - 1));
+    t(i) = t(i - 1) + dt;
+end;
+plot(t, S,'linewidth',1.2);
+hold on;
+plot(t, I,'linewidth',1.2);
+hold on;
+plot(t, R,'linewidth',1.2);
+legend('Susceptibles', 'Infecteds', 'Recovereds');
